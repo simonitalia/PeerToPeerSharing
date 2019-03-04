@@ -12,6 +12,7 @@
 		2A7790362228FB420027C767 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A7790342228FB420027C767 /* Main.storyboard */; };
 		2A7790382228FB450027C767 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A7790372228FB450027C767 /* Assets.xcassets */; };
 		2A77903B2228FB450027C767 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A7790392228FB450027C767 /* LaunchScreen.storyboard */; };
+		2AEF200A222CCF4E00286F29 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEF2009222CCF4E00286F29 /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		2A7790372228FB450027C767 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2A77903A2228FB450027C767 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2A77903C2228FB450027C767 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2AEF2009222CCF4E00286F29 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +59,7 @@
 				2A7790302228FB420027C767 /* AppDelegate.swift */,
 				2A7790322228FB420027C767 /* ViewController.swift */,
 				2A7790342228FB420027C767 /* Main.storyboard */,
+				2AEF2009222CCF4E00286F29 /* DetailViewController.swift */,
 				2A7790372228FB450027C767 /* Assets.xcassets */,
 				2A7790392228FB450027C767 /* LaunchScreen.storyboard */,
 				2A77903C2228FB450027C767 /* Info.plist */,
@@ -135,6 +138,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2AEF200A222CCF4E00286F29 /* DetailViewController.swift in Sources */,
 				2A7790332228FB420027C767 /* ViewController.swift in Sources */,
 				2A7790312228FB420027C767 /* AppDelegate.swift in Sources */,
 			);
@@ -285,6 +289,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4879TTCN72;
 				INFOPLIST_FILE = PeerToPeerSharing/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -303,6 +308,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 4879TTCN72;
 				INFOPLIST_FILE = PeerToPeerSharing/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

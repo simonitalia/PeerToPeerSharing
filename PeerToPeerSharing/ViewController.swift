@@ -40,7 +40,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageView", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ImageViewCell", for: indexPath)
         
         if let imageView = cell.viewWithTag(1000) as? UIImageView {
             imageView.image = images[indexPath.item]
@@ -168,6 +168,7 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         dismiss(animated: true)
     }
     
+    //Deprected method
     func sendImage(image: UIImage) {
         if mcSession.connectedPeers.count > 0 {
             if let imageData = image.pngData() {
@@ -181,5 +182,28 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
             }
         }
     }
+    
+    //MARK: Handle passing data from CollectionVC to DetailVC segue
+    
+    //Setup segue
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "MainVCToDetailVC" {
+            let destinationVC = segue.destination as! DetailViewController
+            destinationVC.mcPeerIDS = (sender as? [MCPeerID])!
+        }
+    }
+    
+    //Execute Segue when user taps on "Who's connected?" Button
+    @IBAction func connectedPeersButton(_ sender: Any) {
+       
+        //Print connected peers to console for debugging
+        print(mcSession.connectedPeers)
+        
+        //Send mcSession.connectedPeers array data object to DetailVC
+        performSegue(withIdentifier: "MainVCToDetailVC", sender: mcSession.connectedPeers)
+        
+    }
+
 }
 

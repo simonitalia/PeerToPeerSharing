@@ -12,15 +12,18 @@ import MultipeerConnectivity
 class DetailViewController: UITableViewController {
     
     //Property to receive data from Main / Collection ViewController 
-    var mcPeerIDS = [MCPeerID]()
-    
+    var mcPeerIDS = [MCPeerID]()    
     var displayNames = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Connected Peers"
-
+        if mcPeerIDS.count == 0 {
+            title = "No Peers Connected"
+            
+        } else {
+            title = "Peers Connected"
+        }
     }
 
     // MARK: - Table view data source
@@ -39,11 +42,10 @@ class DetailViewController: UITableViewController {
             let displayName = mcPeerID.displayName
             displayNames.append(displayName)
         }
-        
-        //2.
+            
         cell.textLabel?.text = displayNames[indexPath.row]
-
+        
         return cell
     }
-
+    
 }

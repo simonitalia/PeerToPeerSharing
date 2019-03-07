@@ -13,6 +13,8 @@
 		2A7790382228FB450027C767 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2A7790372228FB450027C767 /* Assets.xcassets */; };
 		2A77903B2228FB450027C767 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2A7790392228FB450027C767 /* LaunchScreen.storyboard */; };
 		2AEF200A222CCF4E00286F29 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AEF2009222CCF4E00286F29 /* DetailViewController.swift */; };
+		2AF0B0F9222E4CB600579F22 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF0B0F8222E4CB600579F22 /* ChatViewController.swift */; };
+		2AF0B101222FBF1B00579F22 /* PeerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2AF0B100222FBF1B00579F22 /* PeerManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		2A77903A2228FB450027C767 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2A77903C2228FB450027C767 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2AEF2009222CCF4E00286F29 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		2AF0B0F8222E4CB600579F22 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
+		2AF0B100222FBF1B00579F22 /* PeerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,11 +61,13 @@
 			isa = PBXGroup;
 			children = (
 				2A7790302228FB420027C767 /* AppDelegate.swift */,
+				2AF0B100222FBF1B00579F22 /* PeerManager.swift */,
 				2A7790322228FB420027C767 /* ViewController.swift */,
-				2A7790342228FB420027C767 /* Main.storyboard */,
 				2AEF2009222CCF4E00286F29 /* DetailViewController.swift */,
-				2A7790372228FB450027C767 /* Assets.xcassets */,
+				2AF0B0F8222E4CB600579F22 /* ChatViewController.swift */,
+				2A7790342228FB420027C767 /* Main.storyboard */,
 				2A7790392228FB450027C767 /* LaunchScreen.storyboard */,
+				2A7790372228FB450027C767 /* Assets.xcassets */,
 				2A77903C2228FB450027C767 /* Info.plist */,
 			);
 			path = PeerToPeerSharing;
@@ -140,6 +146,8 @@
 			files = (
 				2AEF200A222CCF4E00286F29 /* DetailViewController.swift in Sources */,
 				2A7790332228FB420027C767 /* ViewController.swift in Sources */,
+				2AF0B0F9222E4CB600579F22 /* ChatViewController.swift in Sources */,
+				2AF0B101222FBF1B00579F22 /* PeerManager.swift in Sources */,
 				2A7790312228FB420027C767 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

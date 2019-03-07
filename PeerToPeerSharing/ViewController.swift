@@ -10,12 +10,23 @@ import MultipeerConnectivity
 import UIKit
 
 class ViewController: UICollectionViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, MCSessionDelegate, MCBrowserViewControllerDelegate {
-
+    
+    @IBOutlet weak var composeMessageButton: UIBarButtonItem!
+    
     var images = [UIImage]()
-    var peerID: MCPeerID!
+    
+    //Peer Manaher object for passing data between VCs
+    var peerManager: PeerManager?
+    
+    //MPC properties
     var mcSession: MCSession!
+    var mcPeerID: MCPeerID!
     var mcAdvertiserAssistant: MCAdvertiserAssistant!
-
+    
+    //ChatView property to receive ChatText transcript from ChatVC
+    var messageReceived: String!
+    var chatTranscript = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,9 +37,16 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(showConnectionPrompt))
         
-        peerID = MCPeerID(displayName: UIDevice.current.name)
-        mcSession = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .required)
+        mcPeerID = MCPeerID(displayName: UIDevice.current.name)
+            //Shows the device name
+        mcSession = MCSession(peer:
+            mcPeerID, securityIdentity: nil, encryptionPreference: .required)
         mcSession.delegate = self
+        
+        //Disable chat compose buttn if no peers connected
+        if mcSession.connectedPeers.count == 0 {
+          composeMessageButton.isEnabled = false
+        }
         
     }
     
@@ -130,24 +148,35 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
     func session(_ session: MCSession, didFinishReceivingResourceWithName resourceName: String, fromPeer peerID: MCPeerID, at localURL: URL?, withError error: Error?) {
     }
     
-    //Diagnostic method to check connected state
+    //Diagnostic method to check connected state and to update VC button state
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
         
         switch state {
         case MCSessionState.connected:
-            print("Connected: \(peerID.displayName)")
+             print("Connected: \(peerID.displayName)")
+             
+             //Ensure interafce is updated by main thread
+             DispatchQueue.main.async { [unowned self] in
+                self.composeMessageButton.isEnabled = true
+            }
             
         case MCSessionState.connecting:
             print("Connecting: \(peerID.displayName)")
             
         case MCSessionState.notConnected:
             print("Not Connected: \(peerID.displayName)")
+            
+            //Ensure interafce is updated by main thread
+            DispatchQueue.main.async { [unowned self] in
+                self.composeMessageButton.isEnabled = false
+            }
         }
     }
     
     //Detect when data is received
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         
+        //Update View with received Image Data received
         if let image = UIImage(data: data) {
             
             //Ensure interafce is updated by main thread
@@ -156,6 +185,16 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
                 self.collectionView?.reloadData()
             }
         }
+        
+        //Update chatView property with received message text data
+        let messageReceived = NSString(data: data as Data, encoding: String.Encoding.utf8.rawValue)! as String
+
+            self.messageReceived = messageReceived
+            print("Message received: \(messageReceived)")
+        
+            //Update ChatTextTranscript with messageReceived
+            let updateChatTranscript = (chatTranscript + "\n" + messageReceived)
+            chatTranscript = updateChatTranscript
     }
     
     //Required MCBrowserViewControllerDelegate protocols
@@ -192,18 +231,50 @@ class ViewController: UICollectionViewController, UIImagePickerControllerDelegat
             let destinationVC = segue.destination as! DetailViewController
             destinationVC.mcPeerIDS = (sender as? [MCPeerID])!
         }
+        
+        if segue.identifier == "MainVCToChatVC" {
+            let destinationVC = segue.destination as! ChatViewController
+            destinationVC.peerManager = sender as? PeerManager
+        }
     }
     
     //Execute Segue when user taps on "Who's connected?" Button
-    @IBAction func connectedPeersButton(_ sender: Any) {
+    @IBAction func whoIsConnectedButton(_ sender: Any) {
        
         //Print connected peers to console for debugging
         print(mcSession.connectedPeers)
         
         //Send mcSession.connectedPeers array data object to DetailVC
         performSegue(withIdentifier: "MainVCToDetailVC", sender: mcSession.connectedPeers)
+    }
+    
+    //Pass Peer Data object to ChatVC
+    @IBAction func composeMessageButtonTapped(_ sender: Any) {
         
+        //Guard against dropped connections, and prevent segue to chatVC
+        if mcSession.connectedPeers.count == 0 {
+            print("Can't start chat, no peers connected")
+            return
+        }
+        
+        //Construct PeerManager Data Object
+        peerManager = PeerManager(mcSession: mcSession, mcPeerID: mcPeerID, chatTranscript: chatTranscript)
+        
+            performSegue(withIdentifier: "MainVCToChatVC", sender: peerManager)
     }
 
-}
+    //Segue to receive data object from ChatVC
+    @IBAction func unwindToViewController(segue: UIStoryboardSegue) {
 
+        guard segue.identifier == "saveUnwind" else { return }
+        let sourceViewController = segue.source as! ChatViewController
+        
+        if let updateChatTranscript = sourceViewController.peerManager!.chatTranscript {
+            
+            chatTranscript = updateChatTranscript
+            
+        } else {
+            return
+        }
+    }
+}
